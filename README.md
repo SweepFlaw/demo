@@ -1,20 +1,21 @@
 # SweepFlaw demo
 
 ## Prerequisites
-### System requirement
-- git
-- make
-- clang
-- g++
-### Python requirement
+### System package requirement
+- `git`
+- `make`
+- `clang`
+- `g++`
 - `python >= 3.5`
+### Python package requirement
 - `setuptools`
-- `torch >= 1.0` will be installed during installation process.
+- `torch >= 1.0` This will be installed during installation process.
 
 ## Install
 ```
 # If 'position-learning' and 'position_learning' directory exists at project root,
 # erase them before install.
+
 make install
 ```
 ## Run Sample Scenario

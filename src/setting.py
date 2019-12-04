@@ -34,3 +34,9 @@ VSCM_SELECT_MODE = 2
 VSCM_FILENAME = os.path.join(TMP_DIR, 'vscm.csv')
 MODIFIEDSRC_FILENAME = os.path.join(TMP_DIR, 'modified_src.cpp')
 COMPILED_FILENAME = os.path.join(TMP_DIR, 'compiled.out')
+
+### NN PRIORITY CALCULATOR ("https://github.com/SweepFlaw/position-learning")
+POSLEARN_APPLY = USE_MODEL
+POSLEARN_MODE = MODEL_TYPE
+POSLEARN_PROJ_DIR = os.path.join(ROOT_DIR, 'position-learning')
+POSLEARN_APPFILE = os.path.join(POSLEARN_PROJ_DIR, 'app.py')

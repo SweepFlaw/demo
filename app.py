@@ -1,26 +1,31 @@
-import sys
+from sys import argv
 
-from setting import *
-from makeVscm import genVscm
-from modifyCode import readVscm
-from testcase import readTC
-from findVarError import findVarErr
+import src
+from src.setting import *
+from src.makeVscm import genVscm
+from src.modifyCode import readVscm
+from src.modifyVscm import applyNNResult
+from src.testcase import readTC
+from src.findVarError import findVarErr
 
 if __name__ == "__main__":
     if len(argv) < 4:
         print('Usage: python3 app.py [SRC-file] [input-TC-dir] [output-TC-dir]')
         exit(-1)
     else:
-        targetFilename = argv[1]
-        inputTCdirname = argv[2]
-        outputTCdirname = argv[3]
+        targetFilename = os.path.abspath(argv[1])
+        inputTCdirname = os.path.abspath(argv[2])
+        outputTCdirname = os.path.abspath(argv[3])
         
         with open(targetFilename, 'r') as tf:
             code = tf.readlines()
+        
         genVscm(targetFilename, VSCM_FILENAME)
-        vscm = readVscm(VSCM_FILENAME)
-        itcs, otcs = readTC(inputTCdirname, outputTCdirname)
+        vscm = sorted(readVscm(VSCM_FILENAME), key=lambda x: (x['targetLine'], x['targetColumn'], x['targetStr']))
+        if USE_MODEL:
+            vscm, _ = applyNNResult(vscm, targetFilename)
 
+        itcs, otcs = readTC(inputTCdirname, outputTCdirname)
 
         mc, mci, vi, rs, rc, et, vic = findVarErr(
             code,
@@ -35,13 +40,14 @@ if __name__ == "__main__":
             INFO_PRINT
         )
 
-        print('FINISHED.')
+        print('\n============================FINISHED.')
         if rs == 0:
-            print('SUCCESS')
+            print('RESULT: SUCCESS')
         else:
-            print('FAILED')
-        print('ITER COUNT = ', vic)
-        print('ELAPSED TIME = ', et)
+            print('RESULT: FAILED')
+        print('ITER COUNT =\t', vic)
+        print('ELAPSED TIME =\t', et)
         if rs == 0:
+            print('MODIFIED LINES =\t', list(map(lambda x : x + 1, mci)))
             print('<<<MODIFIED CODE>>>')
             print(mc)

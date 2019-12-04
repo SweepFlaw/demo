@@ -2,7 +2,7 @@ from csv import reader
 from copy import deepcopy
 from itertools import combinations
 
-from makeVscm import genVscm
+from .makeVscm import genVscm
 
 
 # input: targetFilename(string)
@@ -14,7 +14,7 @@ def readTargetFile(targetFilename):
 
 
 # input: vscmFilename(string)
-# output: vscm = list(dictionary)
+# output: vscm = dictionary. The return value's order is nondeterministic.
 # -- dictionary layout
 #    - targetLine (int)
 #    - targetColumn (int)

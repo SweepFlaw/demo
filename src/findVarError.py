@@ -4,9 +4,8 @@ import sys
 import time
 from itertools import combinations
 
-from modifyCode import readVscm, modCodesFull
-
-from makeVscm import genVscm
+from .modifyCode import readVscm, modCodesFull
+from .makeVscm import genVscm
 
 
 # input:
@@ -29,7 +28,7 @@ def codeTest(code, tmpFilename, cFilename, inputTestcases, outputTestcases, sing
     with open(tmpFilename, 'w') as file:
         file.write(code)
     # compile
-    p = subprocess.run(['g++', tmpFilename, '-o', cFilename], shell=False)
+    p = subprocess.run(['g++', tmpFilename, '-o', cFilename], shell=False, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     if p.returncode != 0:
         return (2, [])
     

@@ -1,6 +1,6 @@
 import subprocess
 
-from setting import *
+from .setting import *
 
 vscmMainOption=VSCM_MAIN_OPTION
 vscmSelectCandOption=VSCM_SELECT_MODE

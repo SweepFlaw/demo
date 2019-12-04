@@ -1,5 +1,5 @@
 import os
-from setting import *
+from .setting import *
 
 def readTC(inputTCDir, outputTCDir):
     inputTestcases = []

@@ -12,6 +12,9 @@ STOP_FAST       = True
 ### Print Setting
 PROGRESS_PRINT  = True
 INFO_PRINT      = True
+JSONFILE_OUT    = True
+JSONFILE_OUTOPTION = 'w'
+JSONFILE_INDENT = 4
 
 ### Testcase Filenames
 TESTCASE_STARTNUM = 1

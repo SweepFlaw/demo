@@ -1,4 +1,5 @@
 from sys import argv
+from json import dump
 
 import src
 from src.setting import *
@@ -10,12 +11,21 @@ from src.findVarError import findVarErr
 
 if __name__ == "__main__":
     if len(argv) < 4:
-        print('Usage: python3 app.py [SRC-file] [input-TC-dir] [output-TC-dir]')
+        if JSONFILE_OUT:
+            print('Usage: python3 app.py [SRC-file] [input-TC-dir] [output-TC-dir] [Json-output-file]')
+        else:
+            print('Usage: python3 app.py [SRC-file] [input-TC-dir] [output-TC-dir]')
+        exit(-1)
+    elif JSONFILE_OUT and (len(argv) < 5):
+        print('Usage: python3 app.py [SRC-file] [input-TC-dir] [output-TC-dir] [Json-output-file]')
         exit(-1)
     else:
         targetFilename = os.path.abspath(argv[1])
         inputTCdirname = os.path.abspath(argv[2])
         outputTCdirname = os.path.abspath(argv[3])
+
+        if JSONFILE_OUT:
+            jsonOutFilename = os.path.abspath(argv[4])
         
         with open(targetFilename, 'r') as tf:
             code = tf.readlines()
@@ -37,17 +47,40 @@ if __name__ == "__main__":
             otcs,
             SINGLE_TIMEOUT,
             TOTAL_TIMEOUT,
-            INFO_PRINT
+            PROGRESS_PRINT
         )
 
-        print('\n============================FINISHED.')
-        if rs == 0:
-            print('RESULT: SUCCESS')
-        else:
-            print('RESULT: FAILED')
-        print('ITER COUNT =\t', vic)
-        print('ELAPSED TIME =\t', et)
-        if rs == 0:
-            print('MODIFIED LINES =\t', list(map(lambda x : x + 1, mci)))
-            print('<<<MODIFIED CODE>>>')
-            print(mc)
+        if PROGRESS_PRINT:
+            print('app.py : dbg: findVarErr2 FINISHED')
+
+        if INFO_PRINT:
+            if rs == 0:
+                print('RESULT: SUCCESS')
+            else:
+                print('RESULT: FAILED')
+            print('ITER COUNT =\t', vic)
+            print('ELAPSED TIME =\t', et)
+            if rs == 0:
+                print('MODIFIED LINES =\t', list(map(lambda x : x + 1, mci)))
+                print('<<<MODIFIED CODE>>>')
+                print(mc)
+
+        # JSON file output format
+        if JSONFILE_OUT:
+            d = {}
+            d['targetFilename'] = targetFilename
+            d['inputTCdirname'] = inputTCdirname
+            d['outputTCdirname'] = outputTCdirname
+            d['modifiedCode'] = mc          # check 'modified code String' in 'findVarError.py'
+            d['modifiedCodeLines'] = mci    # check 'modified codeline Indices' in 'findVarError.py'
+            d['returnStatus'] = rs          # check 'returnStatus' in 'findVarError.py'
+            d['resultCodes'] = rc           # check 'resultCodes' in 'findVarError.py'
+            d['elapsedTime'] = et           # check 'elpased time' in 'findVarError.py'
+            d['iterCount'] = vic            # check 'valid Iterate count' in 'findVarError.py'
+            with open(jsonOutFilename, JSONFILE_OUTOPTION) as jsonfile:
+                if PROGRESS_PRINT:
+                    print('app.py : dbg: JSONFILE WRITE START')
+                dump(d, jsonfile, indent=JSONFILE_INDENT)
+                if PROGRESS_PRINT:
+                    print('app.py : dbg: JSONFILE WRITE FINISHED')
+

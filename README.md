@@ -21,6 +21,10 @@ make install
 ```
 ## Run Sample Scenario
 ```
+# run for very small size code.
+make fasttest
+
+# run for little bigger code than above one.
 make demo
 ```
 ## Custom Scenario

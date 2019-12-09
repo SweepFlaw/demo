@@ -12,6 +12,7 @@
 - `torch >= 1.0` This will be installed during installation process.
 
 ## Install
+Make sure you have installed all the requirements before installing.
 ```
 # If 'position-learning' and 'position_learning' directory exists at project root,
 # erase them before install.

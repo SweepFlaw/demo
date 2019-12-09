@@ -74,5 +74,6 @@ demodata/TC_1204B/output
 As you can see, the corresponding output of the input file `input/1` is `output/1`. You can configure related setting at `src/setting.py`'s `TESTCASE_STARTNUM`, `TESTCASE_PREFIX`, and `TESTCASE_POSTFIX`.
 ### Run Custom Scenario
 ```
-python3 app.py [Source File] [Input Testcase Directory] [Output Testcase Directory]
+python3 app.py [Source File] [Input Testcase Directory] [Output Testcase Directory] [Result Output Json Filename]
 ```
+If you turn on the `JSONFILE_OUT` flag in `setting.py`, you should put the argument `Result Output Json Filename`. If `JSONFILE_OUT` flag turn off, the argument `Result Output Json Filename` will be ignored.
